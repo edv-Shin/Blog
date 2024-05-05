@@ -13,11 +13,6 @@ const config: Config = {
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
-
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
@@ -27,6 +22,7 @@ const config: Config = {
       {
         docs: false,
         blog: {
+          id: 'blog-basic',
           showReadingTime: false,
           tagsBasePath: 'tags',
           blogSidebarCount: "ALL",
@@ -36,6 +32,9 @@ const config: Config = {
         },
       } satisfies Preset.Options,
     ],
+  ],
+  plugins: [
+    './src/plugins/custom/index.ts'
   ],
 
   themeConfig: {

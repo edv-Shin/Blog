@@ -5,9 +5,10 @@ import {
   DEFAULT_PLUGIN_ID,
   getContentPathList,
   getDataFilePath,
-  getPluginI18nPath,
+  getPluginI18nPath, normalizeUrl,
 } from "@docusaurus/utils";
 import { generateBlogPosts, shouldBeListed} from "@docusaurus/plugin-content-blog/lib/blogUtils.js";
+import { getAuthorsMap, checkAuthorsMapPermalinkCollisions } from "@docusaurus/plugin-content-blog/lib/authorsMap.js";
 
 export default async function (context: LoadContext, initialOptions: PluginOptions) {
   const options: PluginOptions & Record<string, any> = {
@@ -34,7 +35,6 @@ export default async function (context: LoadContext, initialOptions: PluginOptio
     localizationDir,
     i18n: {currentLocale},
   } = context;
-  const { baseUrl} = siteConfig;
 
   const contentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -64,7 +64,15 @@ export default async function (context: LoadContext, initialOptions: PluginOptio
     },
 
     async loadContent() {
-      let blogPosts = await generateBlogPosts(contentPaths, context, options as any);
+
+      const authorsMap = await getAuthorsMap({
+        contentPaths,
+        authorsMapPath: options.authorsMapPath,
+        authorsBaseRoutePath: path.resolve(siteDir, options.routeBasePath),
+      });
+      checkAuthorsMapPermalinkCollisions(authorsMap);
+      console.log(authorsMap);
+      let blogPosts = await generateBlogPosts(contentPaths, context, options as any, authorsMap);
       // blogPosts = await applyProcessBlogPosts({
       //   blogPosts,
       //   processBlogPosts: ({ blogPosts }) => blogPosts,
@@ -75,7 +83,6 @@ export default async function (context: LoadContext, initialOptions: PluginOptio
       };
     },
     async contentLoaded({ content, actions }) {
-      console.log({content})
       if (!content) {
         return;
       }

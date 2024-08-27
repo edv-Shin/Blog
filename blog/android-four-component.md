@@ -1,5 +1,5 @@
 ---
-title: '[안드로이드] Manifest 개념'
+title: '[안드로이드] 4대 컴포넌트'
 authors: dongwon
 date: 2022-11-03
 tags: ['android']

@@ -1,6 +1,6 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import {BlogPostProvider} from "@docusaurus/theme-common/internal";
+import {BlogPostProvider} from "@docusaurus/plugin-content-blog/client";
 import React from "react";
 import BlogPostItem from "@site/src/components/BlogPostItem";
 import styles from './Home.module.css'
@@ -8,7 +8,7 @@ import styles from './Home.module.css'
 
 export default function Home(props: Record<string, any>): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  console.log(props);
+
   return (
     <Layout
       title={siteConfig.title}>
